@@ -17,7 +17,7 @@ class Registration
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'registrations')]
-    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id', nullable: false)]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'registrations')]

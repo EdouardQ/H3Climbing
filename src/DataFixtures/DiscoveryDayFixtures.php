@@ -10,21 +10,38 @@ use Doctrine\Persistence\ObjectManager;
 
 class DiscoveryDayFixtures extends Fixture implements DependentFixtureInterface
 {
+    private array $data = [
+        [
+            'date' => '2023-02-01',
+            'createdAt' => '2023-01-01',
+            'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',
+            'maxParticipant' => 10,
+        ],
+        [
+            'date' => '2022-12-05',
+            'createdAt' => '2022-12-01',
+            'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',
+            'maxParticipant' => 5,
+        ],
+    ];
 
     public function load(ObjectManager $manager)
     {
-        $discoveryDay = new DiscoveryDay();
-        $discoveryDay->setDate(new \DateTime('2023-02-01'));
-        $discoveryDay->setCreatedAt(new \DateTimeImmutable());
-        $discoveryDay->setLocation('88 Bd Gallieni, 92130 Issy-les-Moulineaux, France');
-        $discoveryDay->setMaxParticipant(10);
-
         /** @var User $organizer */
         $organizer = $this->getReference('user_0');
-        $discoveryDay->setOrganizer($organizer);
 
-        $this->addReference('discovery_day', $discoveryDay);
-        $manager->persist($discoveryDay);
+        foreach ($this->data as $discoveryDay)
+        {
+            $entity = new DiscoveryDay();
+            $entity->setDate(new \DateTimeImmutable($discoveryDay['date']));
+            $entity->setCreatedAt(new \DateTimeImmutable($discoveryDay['createdAt']));
+            $entity->setLocation($discoveryDay['location']);
+            $entity->setMaxParticipant($discoveryDay['maxParticipant']);
+            $entity->setOrganizer($organizer);
+
+            $this->addReference($discoveryDay['date'], $entity);
+            $manager->persist($entity);
+        }
 
         $manager->flush();
     }
