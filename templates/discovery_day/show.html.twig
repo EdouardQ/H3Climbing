@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Discovery Day - {{ discoveryDay.id }}{% endblock %}
+
+{% block body %}
+
+    <div>
+        <h4 class="table-title">{{ discoveryDay.title }}</h4>
+        <table class="table table-show">
+            <tbody>
+                <tr>
+                    <td>Organizer</td>
+                    <td>{{ discoveryDay.organizer.fullName }}</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>{{ discoveryDay.date | date('Y-m-d') }}</td>
+                </tr>
+                <tr>
+                    <td>Number of participants</td>
+                    <td>{{ discoveryDay.currentParticipant }}/{{ discoveryDay.maxParticipant }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    {% if discoveryDay.photos is not empty %}
+        <div class="photo-banner">
+            {% for photo in discoveryDay.photos %}
+                <img src="{{ asset(photo.filename) }}" alt="">
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    {% if discoveryDay.comments is not empty %}
+        <div>
+            {% for comment in discoveryDay.comments %}
+                <div class="comment">
+                    {{ comment.text }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <iframe
+            id="map"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&q={{ discoveryDay.location }}">
+    </iframe>
+
+{% endblock %}
+

@@ -13,37 +13,38 @@ class RegistrationFixtures extends Fixture implements DependentFixtureInterface
 {
     private array $data = [
         [
-            'requestedAt' => '2023-01-01',
-            'updatedAt' => '2023-01-01',
-            'validated' => true,
-            'discoveryDay' => '2023-02-01',
-        ],
-        [
             'requestedAt' => '2022-12-01',
             'updatedAt' => '2022-12-01',
             'validated' => true,
             'discoveryDay' => '2022-12-05',
         ],
+        [
+            'requestedAt' => '2023-01-01',
+            'updatedAt' => '2023-01-01',
+            'validated' => true,
+            'discoveryDay' => '2023-02-01',
+        ],
     ];
 
     public function load(ObjectManager $manager)
     {
-        /** @var User $user */
-        $user = $this->getReference('user_0');
-
-        foreach ($this->data as $registration)
-        {
-            $entity = new Registration();
-            $entity->setUser($user);
-            $entity->setRequestedAt(new \DateTimeImmutable($registration['requestedAt']));
-            $entity->setUpdatedAt(new \DateTimeImmutable($registration['updatedAt']));
-            $entity->setValidated($registration['validated']);
-
+        foreach ($this->data as $registration) {
             /** @var DiscoveryDay $discoveryDay */
             $discoveryDay = $this->getReference($registration['discoveryDay']);
-            $entity->setDiscoveryDay($discoveryDay);
 
-            $manager->persist($entity);
+            for ($i=0; $i<5; $i++) {
+                $entity = new Registration();
+                $entity->setRequestedAt(new \DateTimeImmutable($registration['requestedAt']));
+                $entity->setUpdatedAt(new \DateTimeImmutable($registration['updatedAt']));
+                $entity->setValidated($registration['validated']);
+                $entity->setDiscoveryDay($discoveryDay);
+
+                /** @var User $user */
+                $user = $this->getReference('user_' . $i);
+                $entity->setUser($user);
+
+                $manager->persist($entity);
+            }
         }
 
         $manager->flush();

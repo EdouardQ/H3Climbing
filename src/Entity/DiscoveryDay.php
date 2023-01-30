@@ -19,6 +19,9 @@ class DiscoveryDay
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
     #[ORM\ManyToOne(inversedBy: 'discoveryDays')]
     #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id', nullable: false)]
     private ?User $organizer = null;
@@ -54,6 +57,18 @@ class DiscoveryDay
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
     }
 
     public function getOrganizer(): ?User

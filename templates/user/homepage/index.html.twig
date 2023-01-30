@@ -3,40 +3,85 @@
 {% block title %}My Space{% endblock %}
 
 {% block body %}
+<div>
     <div>
-        <table class="table">
+        <h4 class="table-title">Upcoming Discovery Days</h4>
+        <table class="table table-striped">
             <thead>
-                <tr>
-                    <th>Num</th>
-                    <th>Date</th>
-                    <th>Organizer</th>
-                    <th>Location</th>
-                    <th>Participants</th>
-                    <th>Validated</th>
-                </tr>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Organizer</th>
+                <th>Location</th>
+                <th>Participants</th>
+                <th>Validated</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
-                {% for registration in upcomingRegistrations %}
-                    <tr>
-                        <td>{{ registration.discoveryDay.id }}</td>
-                        <td>{{ registration.discoveryDay.date | date('Y-m-d') }}</td>
-                        <td>{{ registration.discoveryDay.organizer.fullName }}</td>
-                        <td>{{ registration.discoveryDay.location }}</td>
-                        <td>{{ registration.discoveryDay.currentParticipant }}/{{ registration.discoveryDay.maxParticipant }}</td>
-                        <td>
-                            {% if registration.validated is null %}
-                                Pending
+            {% for registration in upcomingRegistrations %}
+                <tr>
+                    <td>{{ registration.discoveryDay.title }}</td>
+                    <td>{{ registration.discoveryDay.date | date('Y-m-d') }}</td>
+                    <td>{{ registration.discoveryDay.organizer.fullName }}</td>
+                    <td>{{ registration.discoveryDay.location }}</td>
+                    <td>{{ registration.discoveryDay.currentParticipant }}/{{ registration.discoveryDay.maxParticipant }}</td>
+                    <td>
+                        {% if registration.validated is null %}
+                            Pending
+                        {% else %}
+                            {% if registration.validated %}
+                                Accepted
                             {% else %}
-                                {% if registration.validated %}
-                                    Accepted
-                                {% else %}
-                                    Refuse
-                                {% endif %}
+                                Refuse
                             {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
+                        {% endif %}
+                    </td>
+                    <td><a href="{{ url('discovery_day.show', {id: registration.discoveryDay.id}) }}">Details</a></td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
+    <br>
+    <div>
+        <h4 class="table-title">Past Discovery Days</h4>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Organizer</th>
+                <th>Location</th>
+                <th>Participants</th>
+                <th>Validated</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for registration in pastRegistrations %}
+                <tr>
+                    <td>{{ registration.discoveryDay.title }}</td>
+                    <td>{{ registration.discoveryDay.date | date('Y-m-d') }}</td>
+                    <td>{{ registration.discoveryDay.organizer.fullName }}</td>
+                    <td>{{ registration.discoveryDay.location }}</td>
+                    <td>{{ registration.discoveryDay.currentParticipant }}/{{ registration.discoveryDay.maxParticipant }}</td>
+                    <td>
+                        {% if registration.validated is null %}
+                            Pending
+                        {% else %}
+                            {% if registration.validated %}
+                                Accepted
+                            {% else %}
+                                Refuse
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td><a href="{{ url('discovery_day.show', {id: registration.discoveryDay.id}) }}">Details</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

@@ -12,17 +12,19 @@ class DiscoveryDayFixtures extends Fixture implements DependentFixtureInterface
 {
     private array $data = [
         [
-            'date' => '2023-02-01',
-            'createdAt' => '2023-01-01',
-            'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',
-            'maxParticipant' => 10,
-        ],
-        [
+            'title' => 'Discovery Day 1',
             'date' => '2022-12-05',
             'createdAt' => '2022-12-01',
             'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',
             'maxParticipant' => 5,
         ],
+        [
+            'title' => 'Discovery Day 2',
+            'date' => '2023-02-01',
+            'createdAt' => '2023-01-01',
+            'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',
+            'maxParticipant' => 10,
+        ]
     ];
 
     public function load(ObjectManager $manager)
@@ -33,6 +35,7 @@ class DiscoveryDayFixtures extends Fixture implements DependentFixtureInterface
         foreach ($this->data as $discoveryDay)
         {
             $entity = new DiscoveryDay();
+            $entity->setTitle($discoveryDay['title']);
             $entity->setDate(new \DateTimeImmutable($discoveryDay['date']));
             $entity->setCreatedAt(new \DateTimeImmutable($discoveryDay['createdAt']));
             $entity->setLocation($discoveryDay['location']);
