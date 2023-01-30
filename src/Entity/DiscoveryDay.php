@@ -20,8 +20,14 @@ class DiscoveryDay
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'discoveryDays')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id', nullable: false)]
     private ?User $organizer = null;
+
+    #[ORM\OneToMany(mappedBy: 'discoveryDay', targetEntity: Registration::class)]
+    private Collection $registrations;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -35,16 +41,14 @@ class DiscoveryDay
     #[ORM\OneToMany(mappedBy: 'discoveryDay', targetEntity: Comment::class)]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'discoveryDay', targetEntity: Registration::class)]
-    private Collection $registrations;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\OneToMany(mappedBy: 'discoveryDay', targetEntity: Photo::class, orphanRemoval: true)]
+    private Collection $photos;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->registrations = new ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -60,6 +64,53 @@ class DiscoveryDay
     public function setOrganizer(?User $organizer): self
     {
         $this->organizer = $organizer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Registration>
+     */
+    public function getRegistrations(): Collection
+    {
+        return $this->registrations;
+    }
+
+    public function getCurrentParticipant(): int
+    {
+        return count($this->registrations);
+    }
+
+    public function addRegistration(Registration $registration): self
+    {
+        if (!$this->registrations->contains($registration)) {
+            $this->registrations->add($registration);
+            $registration->setDiscoveryDay($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegistration(Registration $registration): self
+    {
+        if ($this->registrations->removeElement($registration)) {
+            // set the owning side to null (unless already changed)
+            if ($registration->getDiscoveryDay() === $this) {
+                $registration->setDiscoveryDay(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -131,43 +182,31 @@ class DiscoveryDay
     }
 
     /**
-     * @return Collection<int, Registration>
+     * @return Collection<int, Photo>
      */
-    public function getRegistrations(): Collection
+    public function getPhotos(): Collection
     {
-        return $this->registrations;
+        return $this->photos;
     }
 
-    public function addRegistration(Registration $registration): self
+    public function addPhoto(Photo $photo): self
     {
-        if (!$this->registrations->contains($registration)) {
-            $this->registrations->add($registration);
-            $registration->setDiscoveryDay($this);
+        if (!$this->photos->contains($photo)) {
+            $this->photos->add($photo);
+            $photo->setDiscoveryDay($this);
         }
 
         return $this;
     }
 
-    public function removeRegistration(Registration $registration): self
+    public function removePhoto(Photo $photo): self
     {
-        if ($this->registrations->removeElement($registration)) {
+        if ($this->photos->removeElement($photo)) {
             // set the owning side to null (unless already changed)
-            if ($registration->getDiscoveryDay() === $this) {
-                $registration->setDiscoveryDay(null);
+            if ($photo->getDiscoveryDay() === $this) {
+                $photo->setDiscoveryDay(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Registration;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,28 +40,35 @@ class RegistrationRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Registration[] Returns an array of Registration objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findUpcomingDiscoveryDays(User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.discoveryDay', 'd', 'WITH', 'r.discoveryDay >= d.id')
+            ->andWhere('r.user = :user')
+            ->andWhere('d.date >= :date')
+            ->setParameters([
+                'user' => $user,
+                'date' => new \DateTime(),
+            ])
+            ->orderBy('d.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
-//    public function findOneBySomeField($value): ?Registration
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findOldDiscoveryDays(User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.discoveryDay', 'd', 'WITH', 'r.discoveryDay >= d.id')
+            ->andWhere('r.user = :user')
+            ->andWhere('d.date < :date')
+            ->setParameters([
+                'user' => $user,
+                'date' => new \DateTime(),
+            ])
+            ->orderBy('d.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

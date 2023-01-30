@@ -27,6 +27,9 @@ migrate-db: ## Migrate database
 	php bin/console doctrine:migrations:migrate -n
 	php bin/console doctrine:fixtures:load -n
 
+create-db: ## Create database
+	php bin/console doctrine:database:create
+
 drop-db: ## Remove database
 	php bin/console doctrine:database:drop --if-exists --force
 

@@ -29,14 +29,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'uploadedBy', targetEntity: Photo::class, orphanRemoval: true)]
-    private Collection $photos;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'organizer', targetEntity: DiscoveryDay::class, orphanRemoval: true)]
-    private Collection $discoveryDays;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class)]
-    private Collection $comments;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
@@ -44,21 +41,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Registration::class)]
+    private Collection $registrations;
+
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'rank', referencedColumnName: 'id', nullable: false)]
     private ?Rank $rank = null;
 
     #[ORM\Column]
     private ?int $points = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Registration::class)]
-    private Collection $registrations;
+    #[ORM\OneToMany(mappedBy: 'organizer', targetEntity: DiscoveryDay::class, orphanRemoval: true)]
+    private Collection $discoveryDays;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\OneToMany(mappedBy: 'uploadedBy', targetEntity: Photo::class, orphanRemoval: true)]
+    private Collection $photos;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class)]
+    private Collection $comments;
 
     public function __construct()
     {
@@ -138,32 +138,109 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection<int, Photo>
-     */
-    public function getPhotos(): Collection
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->photos;
+        return $this->createdAt;
     }
 
-    public function addPhoto(Photo $photo): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        if (!$this->photos->contains($photo)) {
-            $this->photos->add($photo);
-            $photo->setUploadedBy($this);
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return "{$this->firstName} {$this->lastName}";
+    }
+
+    /**
+     * @return Collection<int, Registration>
+     */
+    public function getRegistrations(): Collection
+    {
+        return $this->registrations;
+    }
+
+    public function addRegistration(Registration $registration): self
+    {
+        if (!$this->registrations->contains($registration)) {
+            $this->registrations->add($registration);
+            $registration->setUser($this);
         }
 
         return $this;
     }
 
-    public function removePhoto(Photo $photo): self
+    public function removeRegistration(Registration $registration): self
     {
-        if ($this->photos->removeElement($photo)) {
+        if ($this->registrations->removeElement($registration)) {
             // set the owning side to null (unless already changed)
-            if ($photo->getUploadedBy() === $this) {
-                $photo->setUploadedBy(null);
+            if ($registration->getUser() === $this) {
+                $registration->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRank(): ?Rank
+    {
+        return $this->rank;
+    }
+
+    public function setRank(?Rank $rank): self
+    {
+        $this->rank = $rank;
+
+        return $this;
+    }
+
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(int $points): self
+    {
+        $this->points = $points;
 
         return $this;
     }
@@ -199,6 +276,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return Collection<int, Photo>
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos->add($photo);
+            $photo->setUploadedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photos->removeElement($photo)) {
+            // set the owning side to null (unless already changed)
+            if ($photo->getUploadedBy() === $this) {
+                $photo->setUploadedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection<int, Comment>
      */
     public function getComments(): Collection
@@ -224,108 +331,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getRank(): ?Rank
-    {
-        return $this->rank;
-    }
-
-    public function setRank(?Rank $rank): self
-    {
-        $this->rank = $rank;
-
-        return $this;
-    }
-
-    public function getPoints(): ?int
-    {
-        return $this->points;
-    }
-
-    public function setPoints(int $points): self
-    {
-        $this->points = $points;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Registration>
-     */
-    public function getRegistrations(): Collection
-    {
-        return $this->registrations;
-    }
-
-    public function addRegistration(Registration $registration): self
-    {
-        if (!$this->registrations->contains($registration)) {
-            $this->registrations->add($registration);
-            $registration->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRegistration(Registration $registration): self
-    {
-        if ($this->registrations->removeElement($registration)) {
-            // set the owning side to null (unless already changed)
-            if ($registration->getUser() === $this) {
-                $registration->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

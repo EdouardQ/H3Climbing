@@ -23,13 +23,13 @@ class DiscoveryDayFixtures extends Fixture implements DependentFixtureInterface
         $organizer = $this->getReference('user_0');
         $discoveryDay->setOrganizer($organizer);
 
-        // $this->addReference('discovery_day', $discoveryDay);
+        $this->addReference('discovery_day', $discoveryDay);
         $manager->persist($discoveryDay);
 
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class,

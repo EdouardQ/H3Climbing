@@ -17,15 +17,21 @@ class Registration
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'registrations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'id', nullable: false)]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'registrations')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'discovery_day', referencedColumnName: 'id', nullable: false)]
     private ?DiscoveryDay $discoveryDay = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $validated = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $requestedAt = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
     {
@@ -64,6 +70,30 @@ class Registration
     public function setValidated(bool $validated): self
     {
         $this->validated = $validated;
+
+        return $this;
+    }
+
+    public function getRequestedAt(): ?\DateTimeImmutable
+    {
+        return $this->requestedAt;
+    }
+
+    public function setRequestedAt(\DateTimeImmutable $requestedAt): self
+    {
+        $this->requestedAt = $requestedAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

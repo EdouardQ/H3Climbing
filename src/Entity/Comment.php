@@ -20,10 +20,11 @@ class Comment
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id', nullable: false)]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(name: 'discovery_day', referencedColumnName: 'id', nullable: false)]
     private ?DiscoveryDay $discoveryDay = null;
 
     #[ORM\Column(type: Types::TEXT)]

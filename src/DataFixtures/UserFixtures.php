@@ -47,10 +47,10 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i=1; $i < 30; $i++) {
             $user = new User();
-            $user->setEmail($faker->email);
+            $user->setEmail($faker->email());
             $user->setPassword($this->passwordHasher->hashPassword($user, 'azerty'));
-            $user->setFirstName($faker->firstName);
-            $user->setLastName($faker->lastName);
+            $user->setFirstName($faker->firstName());
+            $user->setLastName($faker->lastName());
             $user->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 years', 'now')));
             $user->setUpdatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 years', 'now')));
 
@@ -67,7 +67,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             RankFixtures::class,

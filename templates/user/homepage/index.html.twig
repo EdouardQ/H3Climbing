@@ -1,1 +1,42 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}My Space{% endblock %}
+
+{% block body %}
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Num</th>
+                    <th>Date</th>
+                    <th>Organizer</th>
+                    <th>Location</th>
+                    <th>Participants</th>
+                    <th>Validated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registration in upcomingRegistrations %}
+                    <tr>
+                        <td>{{ registration.discoveryDay.id }}</td>
+                        <td>{{ registration.discoveryDay.date | date('Y-m-d') }}</td>
+                        <td>{{ registration.discoveryDay.organizer.fullName }}</td>
+                        <td>{{ registration.discoveryDay.location }}</td>
+                        <td>{{ registration.discoveryDay.currentParticipant }}/{{ registration.discoveryDay.maxParticipant }}</td>
+                        <td>
+                            {% if registration.validated is null %}
+                                Pending
+                            {% else %}
+                                {% if registration.validated %}
+                                    Accepted
+                                {% else %}
+                                    Refuse
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
