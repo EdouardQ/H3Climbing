@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Regular.ttf') format('truetype');
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-brand img{
+    width: 75px;
+}
+
+.navbar {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}

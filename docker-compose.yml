@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+    mysql:
+        image: mariadb:10.6
+        container_name: climbing-db
+        working_dir: /application
+        volumes:
+            - .:/application
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: root
+        ports:
+            - "3306:3306"
