@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Discovery Days{% endblock %}
+
+{% block body %}
+    <div>
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Title</th>
+                    <th>Location</th>
+                    <th>Places</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for day in discoveryDays %}
+                <tr>
+                    <td>{{ day.date | date('Y-m-d') }}</td>
+                    <td>{{ day.title }}</td>
+                    <td>{{ day.location }}</td>
+                    <td>{{ day.currentParticipant }}/{{ day.maxParticipant }}</td>
+                    <td><a href="{{ url('discovery_day.show', {id: day.id}) }}">Details</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

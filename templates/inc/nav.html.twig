@@ -6,7 +6,7 @@
         <a class="navbar-brand" href="{{ url('homepage') }}"><img src="{{ asset('img/climbing-icon.png') }}"></a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-                <a class="nav-link" href="#">All Discovery Days</a>
+                <a class="nav-link" href="{{ url('discovery_day.list') }}">All Discovery Days</a>
             </li>
         </ul>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-user">
@@ -24,6 +24,9 @@
                     <a class="nav-link" href="{{ url('security.logout') }}">Log out</a>
                 </li>
             {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('security.login') }}">Sign In</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('security.login') }}">Log In</a>
                 </li>

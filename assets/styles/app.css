@@ -85,10 +85,30 @@ body {
 }
 
 .comment {
+    margin: auto;
+    width: 60%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 5px;
+}
 
+.comment hr {
+    margin: 0;
+}
+
+.comment-profile {
+    width: auto;
+    float: left;
+    margin: 0;
+    background-color: #ececec;
+    border-radius: 5px;
+}
+
+.comment-text {
+    padding-top: 40px;
 }
 
 #map {
+    margin-top: 20px;
     width: 60%;
     height: 400px;
     border-radius: 5px;

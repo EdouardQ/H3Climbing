@@ -7,19 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[
     ORM\Entity(repositoryClass: RegistrationRepository::class),
-    ORM\Table(name: 'registration')
+    ORM\Table(name: 'registration'),
+
 ]
 class Registration
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\ManyToOne(inversedBy: 'registrations')]
     #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id', nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'registrations')]
     #[ORM\JoinColumn(name: 'discovery_day', referencedColumnName: 'id', nullable: false)]
     private ?DiscoveryDay $discoveryDay = null;
@@ -32,11 +30,6 @@ class Registration
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getUser(): ?User
     {
@@ -67,7 +60,7 @@ class Registration
         return $this->validated;
     }
 
-    public function setValidated(bool $validated): self
+    public function setValidated(?bool $validated): self
     {
         $this->validated = $validated;
 

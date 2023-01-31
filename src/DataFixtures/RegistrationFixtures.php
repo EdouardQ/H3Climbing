@@ -22,7 +22,7 @@ class RegistrationFixtures extends Fixture implements DependentFixtureInterface
             'requestedAt' => '2023-01-01',
             'updatedAt' => '2023-01-01',
             'validated' => true,
-            'discoveryDay' => '2023-02-01',
+            'discoveryDay' => '2023-02-20',
         ],
     ];
 

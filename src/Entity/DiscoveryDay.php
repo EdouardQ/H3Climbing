@@ -93,7 +93,36 @@ class DiscoveryDay
 
     public function getCurrentParticipant(): int
     {
-        return count($this->registrations);
+        return count($this->getParticipantUsers());
+    }
+
+    public function getParticipationration(): int
+    {
+        return $this->getCurrentParticipant() / $this->maxParticipant * 100;
+    }
+
+    public function getRegistredUsers(): array
+    {
+        $users = [];
+        /** @var Registration $registration */
+        foreach ($this->registrations as $registration) {
+            $users[] = $registration->getUser();
+        }
+
+        return $users;
+    }
+
+    public function getParticipantUsers(): array
+    {
+        $users = [];
+        /** @var Registration $registration */
+        foreach ($this->registrations as $registration) {
+            if ($registration->isValidated()) {
+                $users[] = $registration->getUser();
+            }
+        }
+
+        return $users;
     }
 
     public function addRegistration(Registration $registration): self

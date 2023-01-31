@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(path: '/user', name: 'user.')]
+#[Route(path: '/my-space', name: 'user.')]
 class HomepageController extends AbstractController
 {
     private RegistrationRepository $registrationRepository;

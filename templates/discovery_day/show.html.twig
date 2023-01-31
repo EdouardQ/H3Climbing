@@ -3,15 +3,13 @@
 {% block title %}Discovery Day - {{ discoveryDay.id }}{% endblock %}
 
 {% block body %}
-
     <div>
+        {% for message in app.flashes('success_registration') %}
+            <p class="alert alert-success">{{ message }}</p>
+        {% endfor %}
         <h4 class="table-title">{{ discoveryDay.title }}</h4>
         <table class="table table-show">
             <tbody>
-                <tr>
-                    <td>Organizer</td>
-                    <td>{{ discoveryDay.organizer.fullName }}</td>
-                </tr>
                 <tr>
                     <td>Date</td>
                     <td>{{ discoveryDay.date | date('Y-m-d') }}</td>
@@ -20,10 +18,17 @@
                     <td>Number of participants</td>
                     <td>{{ discoveryDay.currentParticipant }}/{{ discoveryDay.maxParticipant }}</td>
                 </tr>
+                <tr>
+                    <td>Location</td>
+                    <td>{{ discoveryDay.location }}</td>
+                </tr>
+                <tr>
+                    <td>Organizer</td>
+                    <td>{{ discoveryDay.organizer.fullName }}</td>
+                </tr>
             </tbody>
         </table>
     </div>
-
 
     {% if discoveryDay.photos is not empty %}
         <div class="photo-banner">
@@ -33,15 +38,30 @@
         </div>
     {% endif %}
 
-
     {% if discoveryDay.comments is not empty %}
-        <div>
+        <div class="comment">
             {% for comment in discoveryDay.comments %}
-                <div class="comment">
-                    {{ comment.text }}
+                <div>
+                    <div class="comment-profile">{{ comment.user.fullname }}</div>
+                    <p class="comment-text">{{ comment.text }}</p>
                 </div>
+                <hr>
             {% endfor %}
         </div>
+        <br>
+    {% endif %}
+
+    {% if discoveryDay.date|date() < "now"|date() and is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user not in discoveryDay.registredUsers %}
+        <div>
+            <button class="btn btn-primary"
+                    id="get-register-data-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#register-modal"
+            >
+                Register
+            </button>
+        </div>
+        {% include 'discovery_day/_modal_register.html.twig' %}
     {% endif %}
 
     <iframe
@@ -51,6 +71,4 @@
             referrerpolicy="no-referrer-when-downgrade"
             src="https://www.google.com/maps/embed/v1/place?key={{ google_maps_api_key }}&q={{ discoveryDay.location }}">
     </iframe>
-
 {% endblock %}
-
