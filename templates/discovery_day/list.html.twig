@@ -18,10 +18,10 @@
             <tbody>
             {% for day in discoveryDays %}
                 <tr>
-                    <td>{{ day.date | date('Y-m-d') }}</td>
+                    <td>{{ day.date|date('Y-m-d') }}</td>
                     <td>{{ day.title }}</td>
                     <td>{{ day.location }}</td>
-                    <td>{{ day.currentParticipant }}/{{ day.maxParticipant }}</td>
+                    <td>{{ day.registredUsers|length }}/{{ day.maxParticipant }}</td>
                     <td><a href="{{ url('discovery_day.show', {id: day.id}) }}">Details</a></td>
                 </tr>
             {% endfor %}

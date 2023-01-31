@@ -20,6 +20,13 @@ class DiscoveryDayFixtures extends Fixture implements DependentFixtureInterface
         ],
         [
             'title' => 'Discovery Day 2',
+            'date' => 'now',
+            'createdAt' => 'now',
+            'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',
+            'maxParticipant' => 10,
+        ],
+        [
+            'title' => 'Discovery Day 3',
             'date' => '2023-02-20',
             'createdAt' => '2023-01-01',
             'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',

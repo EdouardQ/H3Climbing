@@ -15,13 +15,19 @@ class RegistrationFixtures extends Fixture implements DependentFixtureInterface
         [
             'requestedAt' => '2022-12-01',
             'updatedAt' => '2022-12-01',
-            'validated' => true,
+            'present' => true,
             'discoveryDay' => '2022-12-05',
+        ],
+        [
+            'requestedAt' => 'now',
+            'updatedAt' => 'now',
+            'present' => null,
+            'discoveryDay' => 'now',
         ],
         [
             'requestedAt' => '2023-01-01',
             'updatedAt' => '2023-01-01',
-            'validated' => true,
+            'present' => null,
             'discoveryDay' => '2023-02-20',
         ],
     ];
@@ -36,7 +42,7 @@ class RegistrationFixtures extends Fixture implements DependentFixtureInterface
                 $entity = new Registration();
                 $entity->setRequestedAt(new \DateTimeImmutable($registration['requestedAt']));
                 $entity->setUpdatedAt(new \DateTimeImmutable($registration['updatedAt']));
-                $entity->setValidated($registration['validated']);
+                $entity->setPresent($registration['present']);
                 $entity->setDiscoveryDay($discoveryDay);
 
                 /** @var User $user */

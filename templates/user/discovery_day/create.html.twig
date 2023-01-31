@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Discovery Day{% endblock %}
+
+
+{% block body %}
+    <div class="form">
+        {{ form_start(form, {attr: {class: "row row-cols-lg-auto g-3 align-items-center", novalidate: 'novalidate'}}) }}
+
+        {{ form_label(form.title, "Title") }}
+        {{ form_widget(form.title, {attr: {class: "form-control"}}) }}
+        {{ form_errors(form.title) }}
+
+        {{ form_label(form.date, "Date") }}
+        {{ form_widget(form.date, {attr: {class: "form-control"}}) }}
+        {{ form_errors(form.date) }}
+
+
+        {{ form_label(form.maxParticipant, "Maximum participant number") }}
+        {{ form_widget(form.maxParticipant, {attr: {class: "form-control"}}) }}
+        {{ form_errors(form.maxParticipant) }}
+
+
+        {{ form_label(form.location, "Location") }}
+        {{ form_widget(form.location, {attr: {class: "form-control"}}) }}
+        {{ form_errors(form.location) }}
+
+        <button class="btn btn-primary btn-submit-modal"
+                id="get-form-data-btn"
+                data-bs-target="#form-modal"
+        >
+            Submit
+        </button>
+
+        {% include 'user/discovery_day/_modal_form.html.twig' %}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

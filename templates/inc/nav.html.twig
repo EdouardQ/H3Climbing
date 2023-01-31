@@ -16,7 +16,7 @@
                 </li>
                 {% if app.user.rank.name == 'gold' %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Create a Discovery Day</a>
+                    <a class="nav-link" href="{{ url('user.discovery_day.create') }}">Create a Discovery Day</a>
                 </li>
                 {% endif %}
                 <li class="navbar-blank">&nbsp;</li>

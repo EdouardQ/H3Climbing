@@ -10,6 +10,13 @@ body {
     padding: 0;
 }
 
+footer {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
 .navbar-brand img{
     width: 75px;
 }
@@ -85,7 +92,7 @@ body {
 }
 
 .comment {
-    margin: auto;
+    margin: 50px auto auto auto;
     width: 60%;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     border-radius: 5px;
@@ -107,10 +114,60 @@ body {
     padding-top: 40px;
 }
 
+.comment-date {
+    font-size: 13px;
+}
+
 #map {
     margin-top: 20px;
     width: 60%;
     height: 400px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.form {
+    width: 20%;
+    height: auto;
+    margin: 50px auto;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.form ul {
+    list-style-type: none;
+    margin: 5px auto;
+    width: 90%;
+}
+
+.form ul li {
+    color: red;
+    font-weight: bold;
+}
+
+.form label{
+    margin: 10px auto;
+    text-decoration: underline;
+}
+
+.form input {
+    width: 90%;
+    margin: auto;
+}
+
+.form .btn-submit-modal {
+    margin: 25px auto;
+    width: 90%;
+}
+
+#form-modal .modal-content {
+    width: 800px;
+    left: -150px;
+}
+
+#form-map {
+    width: 750px;
+    height: 400px;
+    border-radius: 5px;
+    margin: auto;
 }

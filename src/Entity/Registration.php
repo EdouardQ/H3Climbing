@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[
     ORM\Entity(repositoryClass: RegistrationRepository::class),
     ORM\Table(name: 'registration'),
-
 ]
 class Registration
 {
@@ -23,7 +22,7 @@ class Registration
     private ?DiscoveryDay $discoveryDay = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $validated = null;
+    private ?bool $presence = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $requestedAt = null;
@@ -55,14 +54,14 @@ class Registration
         return $this;
     }
 
-    public function isValidated(): ?bool
+    public function isPresence(): ?bool
     {
-        return $this->validated;
+        return $this->presence;
     }
 
-    public function setValidated(?bool $validated): self
+    public function setPresent(?bool $presence): self
     {
-        $this->validated = $validated;
+        $this->presence = $presence;
 
         return $this;
     }

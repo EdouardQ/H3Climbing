@@ -8,3 +8,4 @@ require('bootstrap/dist/js/bootstrap.bundle.min');
 require('bootstrap/dist/css/bootstrap.min.css');
 
 require('./components/register');
+require('./components/form-map');

@@ -91,11 +91,6 @@ class DiscoveryDay
         return $this->registrations;
     }
 
-    public function getCurrentParticipant(): int
-    {
-        return count($this->getParticipantUsers());
-    }
-
     public function getParticipationration(): int
     {
         return $this->getCurrentParticipant() / $this->maxParticipant * 100;
@@ -107,19 +102,6 @@ class DiscoveryDay
         /** @var Registration $registration */
         foreach ($this->registrations as $registration) {
             $users[] = $registration->getUser();
-        }
-
-        return $users;
-    }
-
-    public function getParticipantUsers(): array
-    {
-        $users = [];
-        /** @var Registration $registration */
-        foreach ($this->registrations as $registration) {
-            if ($registration->isValidated()) {
-                $users[] = $registration->getUser();
-            }
         }
 
         return $users;
@@ -147,6 +129,17 @@ class DiscoveryDay
         return $this;
     }
 
+    public function allPresenceAreSet(): bool
+    {
+        foreach ($this->getRegistrations() as $registration) {
+            if ($registration->isPresence() === null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -164,7 +157,7 @@ class DiscoveryDay
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
 

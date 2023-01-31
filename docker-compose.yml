@@ -7,8 +7,6 @@ services:
         volumes:
             - .:/application
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: admin
-            MYSQL_PASSWORD: root
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
         ports:
             - "3306:3306"

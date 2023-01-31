@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Rank;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -54,5 +55,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
 
         $this->save($user, true);
+    }
+
+    public function findUserNextRank(Rank $rank): ?Rank
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->select('r')
+            ->join('u.rank', 'r')
+            ->where('r.id > :id')
+            ->orderBy('r.id', 'ASC')
+            ->setMaxResults(1)
+            ->setParameter('id', $rank->getId())
+        ;
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

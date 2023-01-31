@@ -10,7 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DiscoveryDayController extends AbstractController
 {
-
     private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)

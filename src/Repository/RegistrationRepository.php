@@ -56,7 +56,7 @@ class RegistrationRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findOldDiscoveryDays(User $user): array
+    public function findPastDiscoveryDays(User $user): array
     {
         return $this->createQueryBuilder('r')
             ->join('r.discoveryDay', 'd', 'WITH', 'r.discoveryDay >= d.id')
@@ -66,7 +66,7 @@ class RegistrationRepository extends ServiceEntityRepository
                 'user' => $user,
                 'date' => new \DateTime(),
             ])
-            ->orderBy('d.date', 'ASC')
+            ->orderBy('d.date', 'DESC')
             ->getQuery()
             ->getResult()
             ;

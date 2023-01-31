@@ -25,7 +25,7 @@ class HomepageController extends AbstractController
         $user = $this->getUser();
 
         $upcomingRegistrations = $this->registrationRepository->findUpcomingDiscoveryDays($user);
-        $pastRegistrations = $this->registrationRepository->findOldDiscoveryDays($user);
+        $pastRegistrations = $this->registrationRepository->findPastDiscoveryDays($user);
 
         return $this->render('user/homepage/index.html.twig', [
             'upcomingRegistrations' => $upcomingRegistrations,

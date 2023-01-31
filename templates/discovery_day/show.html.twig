@@ -12,11 +12,11 @@
             <tbody>
                 <tr>
                     <td>Date</td>
-                    <td>{{ discoveryDay.date | date('Y-m-d') }}</td>
+                    <td>{{ discoveryDay.date | date('Y-m-d H:i') }}</td>
                 </tr>
                 <tr>
                     <td>Number of participants</td>
-                    <td>{{ discoveryDay.currentParticipant }}/{{ discoveryDay.maxParticipant }}</td>
+                    <td>{{ discoveryDay.registredUsers|length }}/{{ discoveryDay.maxParticipant }}</td>
                 </tr>
                 <tr>
                     <td>Location</td>
@@ -42,7 +42,7 @@
         <div class="comment">
             {% for comment in discoveryDay.comments %}
                 <div>
-                    <div class="comment-profile">{{ comment.user.fullname }}</div>
+                    <div class="comment-profile">{{ comment.user.fullname }} <span class="comment-date">({{ comment.createdAt|date('Y-m-d H:i:s') }})</span></div>
                     <p class="comment-text">{{ comment.text }}</p>
                 </div>
                 <hr>
@@ -53,7 +53,7 @@
 
     {% if discoveryDay.date|date() < "now"|date() and is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user not in discoveryDay.registredUsers %}
         <div>
-            <button class="btn btn-primary"
+            <button class="btn btn-primary btn-submit-modal"
                     id="get-register-data-btn"
                     data-bs-toggle="modal"
                     data-bs-target="#register-modal"
