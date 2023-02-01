@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[
     ORM\Entity(repositoryClass: PhotoRepository::class),
@@ -23,7 +24,7 @@ class Photo
     private ?\DateTimeImmutable $uploadedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
-    #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'uploaded_by', referencedColumnName: 'id', nullable: false)]
     private ?User $uploadedBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
@@ -35,12 +36,12 @@ class Photo
         return $this->id;
     }
 
-    public function getFilename(): ?string
+    public function getFilename(): null|string|UploadedFile
     {
         return $this->filename;
     }
 
-    public function setFilename(string $filename): self
+    public function setFilename(string|UploadedFile $filename): self
     {
         $this->filename = $filename;
 

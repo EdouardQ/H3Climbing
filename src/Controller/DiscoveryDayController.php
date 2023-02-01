@@ -39,7 +39,9 @@ class DiscoveryDayController extends AbstractController
     public function show(DiscoveryDay $discoveryDay, Request $request): Response
     {
         /** @var User|null $user */
-        if ($user = $this->getUser() && in_array($this->getUser(), $discoveryDay->getRegistredUsers())) {
+        $user = $this->getUser();
+
+        if ($user && in_array($this->getUser(), $discoveryDay->getRegistredUsers())) {
             $comment = new Comment();
             $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
 

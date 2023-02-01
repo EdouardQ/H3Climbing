@@ -3,7 +3,7 @@
 ## Todo
 
 <ul>
-    <li>add photo</li>
+    <li>inscription</li>
     <li>display photo</li>
 </ul>
 

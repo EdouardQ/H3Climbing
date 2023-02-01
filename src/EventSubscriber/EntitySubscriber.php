@@ -28,7 +28,7 @@ class EntitySubscriber implements EventSubscriberInterface
         return [
             Events::prePersist,
             Events::preUpdate,
-            Events::postFlush
+            Events::postFlush,
         ];
     }
 

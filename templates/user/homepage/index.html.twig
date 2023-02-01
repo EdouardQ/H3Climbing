@@ -5,6 +5,9 @@
 {% block body %}
 <div>
     <div>
+        {% for message in app.flashes('success_photo') %}
+            <p class="alert alert-success">{{ message }}</p>
+        {% endfor %}
         <h4 class="table-title">Upcoming Discovery Days</h4>
         <table class="table table-striped">
             <thead>
@@ -56,6 +59,8 @@
                     <td>{{ registration.discoveryDay.location }}</td>
                     <td>{{ registration.discoveryDay.registredUsers|length }}/{{ registration.discoveryDay.maxParticipant }}</td>
                     <td>
+                        <a href="{{ url('user.photo.add', {id: registration.discoveryDay.id}) }}">Add a Photo</a>
+                        <span>|</span>
                         <a href="{{ url('discovery_day.show', {id: registration.discoveryDay.id}) }}">Details</a>
                     </td>
                 </tr>
