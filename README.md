@@ -3,8 +3,6 @@
 ## Todo
 
 <ul>
-    <li>page validate presence (link dans la navbar)</li>
-    <li>write comment</li>
     <li>add photo</li>
     <li>display photo</li>
 </ul>

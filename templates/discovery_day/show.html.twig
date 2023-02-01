@@ -58,6 +58,17 @@
         <br>
     {% endif %}
 
+    {% if form != null %}
+        <div>
+            {{ form_start(form, {attr: {id: 'form-comment', novalidate: 'novalidate'}}) }}
+
+            {{ form_widget(form.text, {attr: {class: 'input-comment', rows: 5}}) }}
+            {{ form_errors(form.text) }}
+
+            {{ form_end(form) }}
+        </div>
+    {% endif %}
+
     {% if
         discoveryDay.date|date() > "now"|date()
         and is_granted('IS_AUTHENTICATED_REMEMBERED')

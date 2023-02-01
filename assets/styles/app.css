@@ -138,7 +138,8 @@ footer {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-.form ul {
+.form ul,
+#form-comment ul {
     list-style-type: none;
     margin: 5px auto;
     width: 90%;
@@ -186,4 +187,11 @@ footer {
     height: 400px;
     border-radius: 5px;
     margin: auto;
+}
+
+.input-comment {
+    width: 60%;
+    margin: -10px auto 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }

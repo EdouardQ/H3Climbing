@@ -13,3 +13,4 @@ require('bootstrap/dist/css/bootstrap.min.css');
 
 require('./components/register');
 require('./components/form-map');
+require('./components/form-comment');

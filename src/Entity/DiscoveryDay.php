@@ -107,11 +107,6 @@ class DiscoveryDay
         return $this->registrations;
     }
 
-    public function getParticipationration(): int
-    {
-        return $this->getCurrentParticipant() / $this->maxParticipant * 100;
-    }
-
     public function getRegistredUsers(): array
     {
         $users = [];
