@@ -54,12 +54,12 @@ class Registration
         return $this;
     }
 
-    public function isPresence(): ?bool
+    public function getPresence(): ?bool
     {
         return $this->presence;
     }
 
-    public function setPresent(?bool $presence): self
+    public function setPresence(?bool $presence): self
     {
         $this->presence = $presence;
 

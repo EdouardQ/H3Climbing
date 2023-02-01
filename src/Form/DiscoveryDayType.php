@@ -41,7 +41,7 @@ class DiscoveryDayType extends AbstractType
                         'message' => 'Please enter a date',
                     ]),
                     new GreaterThan([
-                        'value' => 'now',
+                        'value' => 'tomorrow',
                         'message' => 'The date must be in the future',
                     ])
                 ]

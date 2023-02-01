@@ -6,6 +6,7 @@ use App\Entity\DiscoveryDay;
 use App\Entity\Registration;
 use App\Entity\User;
 use App\Form\DiscoveryDayType;
+use App\Form\PresenceType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,23 +51,43 @@ class DiscoveryDayController extends AbstractController
         $form = $this->createForm(DiscoveryDayType::class, $entity)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entity->setOrganizer($this->getUser());
+            if (!$this->em->contains($entity)) {
+                $entity->setOrganizer($this->getUser());
 
-            $registration = new Registration();
-            $registration->setDiscoveryDay($entity);
-            $registration->setUser($entity->getOrganizer());
+                $registration = new Registration();
+                $registration->setDiscoveryDay($entity);
+                $registration->setUser($entity->getOrganizer());
 
-            $this->em->persist($entity);
-            $this->em->persist($registration);
+                $this->em->persist($entity);
+                $this->em->persist($registration);
+            }
 
             $this->em->flush();
 
-            $this->addFlash('success_discovery_day', 'Your discovery day has been created.');
-            return $this->redirectToRoute('user.homepage');
+            $this->addFlash('success_discovery_day', 'Your discovery day has been created/updated.');
+            return $this->redirectToRoute('user.discovery_day.list');
         }
 
         return $this->render('user/discovery_day/form.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/presence/{id}', name: 'presence')]
+    public function presence(DiscoveryDay $discoveryDay, Request $request): Response
+    {
+        $form = $this->createForm(PresenceType::class, $discoveryDay)->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->flush();
+
+            $this->addFlash('success_discovery_day', 'Your discovery day has been updated.');
+            return $this->redirectToRoute('user.discovery_day.list');
+        }
+
+        return $this->render('user/discovery_day/presence.html.twig', [
+            'discoveryDay' => $discoveryDay,
+            'form' => $form,
         ]);
     }
 }

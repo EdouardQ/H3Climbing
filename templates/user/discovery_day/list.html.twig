@@ -4,6 +4,9 @@
 
 {% block body %}
     <div>
+        {% for message in app.flashes('success_discovery_day') %}
+            <p class="alert alert-success">{{ message }}</p>
+        {% endfor %}
         <h4 class="table-title">My Discovery Days</h4>
         <table class="table table-striped">
             <thead>
@@ -31,7 +34,7 @@
                         {% if discoveryDay.date|date() >= 'tomorrow'|date() %}
                             <a href="{{ url('user.discovery_day.form', {id: discoveryDay.id}) }}">Edit</a>
                         {% else %}
-                            <a href="{{ url('user.discovery_day.form', {id: discoveryDay.id}) }}">Validate Presences</a>
+                            <a href="{{ url('user.discovery_day.presence', {id: discoveryDay.id}) }}">Validate Presences</a>
                         {% endif %}
                     </td>
                 </tr>

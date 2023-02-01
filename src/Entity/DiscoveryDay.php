@@ -148,7 +148,7 @@ class DiscoveryDay
     public function allPresenceAreSet(): bool
     {
         foreach ($this->getRegistrations() as $registration) {
-            if ($registration->isPresence() === null) {
+            if ($registration->getPresence() === null) {
                 return false;
             }
         }

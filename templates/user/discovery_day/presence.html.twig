@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ discoveryDay.title }} - Presence{% endblock %}
+
+{% block body %}
+<div class="form">
+    {{ form_start(form, {attr: {class: "row row-cols-lg-auto g-3 align-items-center", novalidate: 'novalidate'}}) }}
+
+    {% for registration in form.registrations %}
+    {{ form_label(registration) }}
+    {{ form_widget(registration, {attr: {class: "form-presence"}}) }}
+    {% endfor %}
+
+    <input type="submit" class="btn btn-primary btn-submit" />
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}
