@@ -23,7 +23,11 @@ class DiscoveryDay
     private ?string $title = null;
 
     #[ORM\ManyToOne(inversedBy: 'discoveryDays')]
-    #[ORM\JoinColumn(name: 'user', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'minimum_rank', referencedColumnName: 'id', nullable: false)]
+    private ?Rank $minimumRank = null;
+
+    #[ORM\ManyToOne(inversedBy: 'discoveryDays')]
+    #[ORM\JoinColumn(name: 'organizer', referencedColumnName: 'id', nullable: false)]
     private ?User $organizer = null;
 
     #[ORM\OneToMany(mappedBy: 'discoveryDay', targetEntity: Registration::class)]
@@ -67,6 +71,18 @@ class DiscoveryDay
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getMinimumRank(): ?Rank
+    {
+        return $this->minimumRank;
+    }
+
+    public function setMinimumRank(?Rank $minimumRank): self
+    {
+        $this->minimumRank = $minimumRank;
 
         return $this;
     }

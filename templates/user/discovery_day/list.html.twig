@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manager{% endblock %}
+
+{% block body %}
+    <div>
+        <h4 class="table-title">My Discovery Days</h4>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Minimum Rank</th>
+                <th>Location</th>
+                <th>Participants</th>
+                <th><a href="{{ url('user.discovery_day.form') }}">Create</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for discoveryDay in discoveryDays %}
+                <tr>
+                    <td>{{ discoveryDay.title }}</td>
+                    <td>{{ discoveryDay.date|date('Y-m-d') }}</td>
+                    <td>
+                        <img src="{{ asset('img/' ~ discoveryDay.minimumRank.name ~ '.png') }}" alt="" class="img-rank">
+                        {{ discoveryDay.minimumRank.name }}
+                    </td>
+                    <td>{{ discoveryDay.location }}</td>
+                    <td>{{ discoveryDay.registredUsers|length }}/{{ discoveryDay.maxParticipant }}</td>
+                    <td>
+                        {% if discoveryDay.date|date() >= 'tomorrow'|date() %}
+                            <a href="{{ url('user.discovery_day.form', {id: discoveryDay.id}) }}">Edit</a>
+                        {% else %}
+                            <a href="{{ url('user.discovery_day.form', {id: discoveryDay.id}) }}">Validate Presences</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

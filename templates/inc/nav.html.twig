@@ -12,11 +12,14 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-user">
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <li class="nav-item">
+                    <img src="{{ asset('img/' ~ app.user.rank.name ~ '.png') }}" alt="" class="img-rank">
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url('user.homepage') }}">My Space</a>
                 </li>
                 {% if app.user.rank.name == 'gold' %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('user.discovery_day.create') }}">Create a Discovery Day</a>
+                    <a class="nav-link" href="{{ url('user.discovery_day.list') }}">Manage my Discovery Days</a>
                 </li>
                 {% endif %}
                 <li class="navbar-blank">&nbsp;</li>

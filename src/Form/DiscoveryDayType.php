@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\Rank;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -19,6 +21,15 @@ class DiscoveryDayType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a title',
+                    ])
+                ]
+            ])
+            ->add('minimumRank', EntityType::class, [
+                'class' => Rank::class,
+                'choice_label' => 'name',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please select a minimum rank',
                     ])
                 ]
             ])

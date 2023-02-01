@@ -27,9 +27,13 @@ class Rank
     #[ORM\Column]
     private ?int $requirement = null;
 
+    #[ORM\OneToMany(mappedBy: 'minimumRank', targetEntity: DiscoveryDay::class)]
+    private Collection $discoveryDays;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->discoveryDays = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,6 +91,36 @@ class Rank
     public function setRequirement(int $requirement): self
     {
         $this->requirement = $requirement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DiscoveryDay>
+     */
+    public function getDiscoveryDays(): Collection
+    {
+        return $this->discoveryDays;
+    }
+
+    public function addDiscoveryDay(DiscoveryDay $discoveryDay): self
+    {
+        if (!$this->discoveryDays->contains($discoveryDay)) {
+            $this->discoveryDays->add($discoveryDay);
+            $discoveryDay->setMinimumRank($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscoveryDay(DiscoveryDay $discoveryDay): self
+    {
+        if ($this->discoveryDays->removeElement($discoveryDay)) {
+            // set the owning side to null (unless already changed)
+            if ($discoveryDay->getMinimumRank() === $this) {
+                $discoveryDay->setMinimumRank(null);
+            }
+        }
 
         return $this;
     }

@@ -20,8 +20,14 @@ class DiscoveryDayController extends AbstractController
     #[Route('/discovery-days', name: 'discovery_day.list')]
     public function listDiscoveryDays(): Response
     {
+        $repository = $this->em->getRepository(DiscoveryDay::class);
+
+        $upcomingDiscoveryDays = $repository->findUpcomingDiscoveryDays();
+        $pastDiscoveryDays = $repository->findPastDiscoveryDays();
+
         return $this->render('discovery_day/list.html.twig', [
-            'discoveryDays' => $this->em->getRepository(DiscoveryDay::class)->findBy([], ['date' => 'DESC']),
+            'upcomingDiscoveryDays' => $upcomingDiscoveryDays,
+            'pastDiscoveryDays' => $pastDiscoveryDays,
         ]);
     }
 

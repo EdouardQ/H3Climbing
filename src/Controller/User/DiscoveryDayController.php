@@ -4,6 +4,7 @@ namespace App\Controller\User;
 
 use App\Entity\DiscoveryDay;
 use App\Entity\Registration;
+use App\Entity\User;
 use App\Form\DiscoveryDayType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,10 +22,31 @@ class DiscoveryDayController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/create', name: 'create')]
-    public function create(Request $request): Response
+    #[Route('/list', name: 'list')]
+    public function list(): Response
     {
-        $entity = new DiscoveryDay();
+        /** @var User $user */
+        $user = $this->getUser();
+        $discoveryDays = $this->em->getRepository(DiscoveryDay::class)->findManagebleDiscoveryDays($user);
+
+        return $this->render('user/discovery_day/list.html.twig', [
+            'discoveryDays' => $discoveryDays,
+        ]);
+    }
+
+    #[Route('/form/{id}', name: 'form', requirements: ['id' => '\d+'], defaults: ['id' => null])]
+    public function form(?int $id, Request $request): Response
+    {
+        if ($id) {
+            $entity = $this->em->getRepository(DiscoveryDay::class)->find($id);
+
+            if ($this->getUser() !== $entity->getOrganizer()) {
+                return new Response('', Response::HTTP_FORBIDDEN);
+            }
+        } else {
+            $entity = new DiscoveryDay();
+        }
+
         $form = $this->createForm(DiscoveryDayType::class, $entity)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -43,7 +65,7 @@ class DiscoveryDayController extends AbstractController
             return $this->redirectToRoute('user.homepage');
         }
 
-        return $this->render('user/discovery_day/create.html.twig', [
+        return $this->render('user/discovery_day/form.html.twig', [
             'form' => $form->createView(),
         ]);
     }

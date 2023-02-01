@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\DiscoveryDay;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,5 +38,40 @@ class DiscoveryDayRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findUpcomingDiscoveryDays(): array
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.date >= :now')
+            ->setParameter('now', new \DateTime())
+            ->orderBy('d.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findPastDiscoveryDays(): array
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.date < :now')
+            ->setParameter('now', new \DateTime())
+            ->orderBy('d.date', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findManagebleDiscoveryDays(User $user): array
+    {
+        return $this->createQueryBuilder('d')
+            ->join('d.registrations', 'r', 'WITH', 'r.discoveryDay = d.id')
+            ->andWhere('d.organizer = :organizer')
+            ->andWhere('r.presence IS NULL')
+            ->setParameter('organizer', $user)
+            ->orderBy('d.date', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

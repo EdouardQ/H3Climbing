@@ -3,7 +3,6 @@
 ## Todo
 
 <ul>
-    <li>add requirement to register</li>
     <li>page validate presence (link dans la navbar)</li>
     <li>write comment</li>
     <li>add photo</li>

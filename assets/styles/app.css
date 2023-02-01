@@ -39,6 +39,10 @@ footer {
     padding: 0 0.5em;
 }
 
+.img-rank {
+    width: 50px;
+}
+
 .form-login {
     width: 25%;
     margin: 30px auto 0;
@@ -150,7 +154,8 @@ footer {
     text-decoration: underline;
 }
 
-.form input {
+.form input,
+.form select {
     width: 90%;
     margin: auto;
 }

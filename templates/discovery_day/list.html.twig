@@ -4,29 +4,64 @@
 
 {% block body %}
     <div>
-        <br>
-        <table class="table">
-            <thead>
+        <div>
+            <h4 class="table-title">Upcoming Discovery Days</h4>
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <th>Date</th>
                     <th>Title</th>
+                    <th>Date</th>
+                    <th>Organizer</th>
                     <th>Location</th>
-                    <th>Places</th>
+                    <th>Participants</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
-            {% for day in discoveryDays %}
+                </thead>
+                <tbody>
+                {% for discoveryDay in upcomingDiscoveryDays %}
+                    <tr>
+                        <td>{{ discoveryDay.title }}</td>
+                        <td>{{ discoveryDay.date|date('Y-m-d') }}</td>
+                        <td>{{ discoveryDay.organizer.fullName }}</td>
+                        <td>{{ discoveryDay.location }}</td>
+                        <td>{{ discoveryDay.registredUsers|length }}/{{ discoveryDay.maxParticipant }}</td>
+                        <td>
+                            <a href="{{ url('discovery_day.show', {id: discoveryDay.id}) }}">Details</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div>
+            <h4 class="table-title">Past Discovery Days</h4>
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td>{{ day.date|date('Y-m-d') }}</td>
-                    <td>{{ day.title }}</td>
-                    <td>{{ day.location }}</td>
-                    <td>{{ day.registredUsers|length }}/{{ day.maxParticipant }}</td>
-                    <td><a href="{{ url('discovery_day.show', {id: day.id}) }}">Details</a></td>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Organizer</th>
+                    <th>Location</th>
+                    <th>Participants</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for discoveryDay in pastDiscoveryDays %}
+                    <tr>
+                        <td>{{ discoveryDay.title }}</td>
+                        <td>{{ discoveryDay.date|date('Y-m-d') }}</td>
+                        <td>{{ discoveryDay.organizer.fullName }}</td>
+                        <td>{{ discoveryDay.location }}</td>
+                        <td>{{ discoveryDay.registredUsers|length }}/{{ discoveryDay.maxParticipant }}</td>
+                        <td>
+                            <a href="{{ url('discovery_day.show', {id: discoveryDay.id}) }}">Details</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-
 {% endblock %}

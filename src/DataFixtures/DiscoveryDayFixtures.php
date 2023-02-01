@@ -17,6 +17,7 @@ class DiscoveryDayFixtures extends Fixture implements DependentFixtureInterface
             'createdAt' => '2022-12-01',
             'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',
             'maxParticipant' => 5,
+            'minimumRank' => 'bronze',
         ],
         [
             'title' => 'Discovery Day 2',
@@ -24,6 +25,7 @@ class DiscoveryDayFixtures extends Fixture implements DependentFixtureInterface
             'createdAt' => 'now',
             'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',
             'maxParticipant' => 10,
+            'minimumRank' => 'bronze'
         ],
         [
             'title' => 'Discovery Day 3',
@@ -31,6 +33,7 @@ class DiscoveryDayFixtures extends Fixture implements DependentFixtureInterface
             'createdAt' => '2023-01-01',
             'location' => '88 Bd Gallieni, 92130 Issy-les-Moulineaux, France',
             'maxParticipant' => 10,
+            'minimumRank' => 'bronze'
         ]
     ];
 
@@ -48,6 +51,7 @@ class DiscoveryDayFixtures extends Fixture implements DependentFixtureInterface
             $entity->setLocation($discoveryDay['location']);
             $entity->setMaxParticipant($discoveryDay['maxParticipant']);
             $entity->setOrganizer($organizer);
+            $entity->setMinimumRank($this->getReference('rank_' . $discoveryDay['minimumRank']));
 
             $this->addReference($discoveryDay['date'], $entity);
             $manager->persist($entity);
