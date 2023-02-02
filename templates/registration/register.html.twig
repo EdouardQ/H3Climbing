@@ -3,15 +3,49 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="form form-login">
+        <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_start(registrationForm, {attr: {id: 'register-form', class: "row row-cols-lg-auto g-3 align-items-center", novalidate: 'novalidate'}}) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+        {{ form_label(registrationForm.email, "Email") }}
+        {{ form_widget(registrationForm.email, {attr: {class: "form-control"}}) }}
+        {{ form_errors(registrationForm.email) }}
+
+        {{ form_label(registrationForm.firstName, "First Name") }}
+        {{ form_widget(registrationForm.firstName, {attr: {class: "form-control"}}) }}
+        {{ form_errors(registrationForm.firstName) }}
+
+        {{ form_label(registrationForm.lastName, "Last Name") }}
+        {{ form_widget(registrationForm.lastName, {attr: {class: "form-control"}}) }}
+        {{ form_errors(registrationForm.lastName) }}
+
+        {{ form_label(registrationForm.plainPassword.first, "Password") }}
+        {{ form_widget(registrationForm.plainPassword.first, {attr: {class: "form-control"}}) }}
+        {{ form_errors(registrationForm.plainPassword.first) }}
+
+        {{ form_label(registrationForm.plainPassword.second, "Repeat Password") }}
+        {{ form_widget(registrationForm.plainPassword.second, {attr: {class: "form-control"}}) }}
+        {{ form_errors(registrationForm.plainPassword.second) }}
+
+        <button
+                class="btn btn-primary g-recaptcha"
+                data-sitekey="{{ google_recaptcha_site_key }}"
+                data-callback='onSubmit'
+                data-action='submit'
+        >
+            Sign Up
+        </button>
+
+        {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("register-form").submit();
+        }
+    </script>
 {% endblock %}

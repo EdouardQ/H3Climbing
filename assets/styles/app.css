@@ -195,3 +195,13 @@ footer {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
+
+.carousel {
+    width: 60%;
+    height: 600px;
+    margin: 20px auto;
+}
+
+.carousel-item img {
+    height: 600px;
+}
